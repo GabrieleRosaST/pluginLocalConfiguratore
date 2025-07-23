@@ -13,7 +13,7 @@ $PAGE->set_pagelayout('standard');
 echo $OUTPUT->header();
 
 ?>
-<iframe id="myAppFrame" src="index.html" style="width:100%; border:none; min-height:900px" ></iframe>
+<iframe id="myAppFrame" src="index.html" style="width:100%; border:none; min-height:1050px" scrolling="no"></iframe>
 
 <?php
 
