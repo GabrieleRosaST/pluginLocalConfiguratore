@@ -1,0 +1,63 @@
+# File di configurazione sensibili e chiavi di sicurezza
+service-account-key.json
+firebase_key.json
+chiave_dialogflow.json
+text-to-speech.json
+
+# File di log e debug
+debug.log
+error.log
+app.log
+*.log
+request_log.json
+estrazione_tipologia_request_log.json
+
+# File temporanei del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# File di configurazione dell'IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# File di backup
+*.bak
+*.backup
+*.old
+*.orig
+
+# File di ambiente e configurazione locale
+.env
+.env.local
+.env.development
+.env.production
+config.local.php
+
+# Cache e file compilati
+cache/
+tmp/
+temp/
+*.cache
+
+# File di dipendenze (se applicabile)
+node_modules/
+vendor/
+composer.lock
+
+# File generati automaticamente
+build/
+dist/
+
+# File di sistema Windows
+*.exe
+*.msi
+*.dll
+
+# File compressi
+*.zip
+*.tar.gz
+*.rar

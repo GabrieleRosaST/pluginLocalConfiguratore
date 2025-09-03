@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/configuratore/db" VERSION="20250605" COMMENT="XMLDB file for Moodle local/configuratore"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+<!-- TODO METTERE TUTTI GLI ID UNSIGNED -->
+    <TABLE NAME="local_configuratore_chatbot" COMMENT="Configurazione principale per il chatbot">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" UNSIGNED="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+        <FIELD NAME="nomechatbot" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="corsochatbot" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="descrizionechatbot" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="istruzionichatbot" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="datainizio" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true"/>
+        <FIELD NAME="datafine" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_configuratore_argomenti" COMMENT="Argomenti collegati a configurazione">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" UNSIGNED="true"/>
+        <FIELD NAME="chatbotid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+        <FIELD NAME="titolo" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="giorno" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="config_fk" TYPE="foreign" FIELDS="chatbotid" REFTABLE="local_configuratore_chatbot" REFFIELDS="id" ONDELETE="cascade"/>
+      </KEYS>
+    </TABLE>
+
+
+    <TABLE NAME="local_configuratore_files" COMMENT="Files uploaded for the configuratore local">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
+            <FIELD NAME="chatbotid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+            <FIELD NAME="argomentoid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+            <FIELD NAME="moodlefileid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true"/>
+            <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="true"/>
+            <FIELD NAME="mimetype" TYPE="char" LENGTH="255" NOTNULL="false"/>
+            <FIELD NAME="status" TYPE="char" LENGTH="32" NOTNULL="true" DEFAULT="pending"/>
+            <FIELD NAME="url" TYPE="text" NOTNULL="false"/>
+            <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+            <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true"/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            <KEY NAME="chatbotid_fk" TYPE="foreign" FIELDS="chatbotid" REFTABLE="local_configuratore_chatbot" REFFIELDS="id"/>
+            <KEY NAME="argomentoid_fk" TYPE="foreign" FIELDS="argomentoid" REFTABLE="local_configuratore_argomenti" REFFIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="status" FIELDS="status" UNIQUE="false"/>
+            <INDEX NAME="timecreated" FIELDS="timecreated" UNIQUE="false"/>
+        </INDEXES>
+    </TABLE>
+
+  </TABLES>
+</XMLDB>
