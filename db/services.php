@@ -134,6 +134,15 @@ $functions = [
         'ajax'         => true,
     ],
 
+    'local_configuratore_save_argomenti' => [
+        'classname'   => 'local_configuratore_external',
+        'methodname'  => 'save_argomenti',
+        'classpath'   => 'local/configuratore/externallib.php',
+        'description' => 'Salva gli argomenti nella tabella mdl_local_configuratore_argomenti.',
+        'type'        => 'write',
+        'capabilities'=> 'local/configuratore:manage',
+        'ajax'        => true,
+    ],
 ];
 
 $services = [

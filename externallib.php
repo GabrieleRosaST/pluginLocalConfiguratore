@@ -1131,4 +1131,103 @@ class local_configuratore_external extends external_api {
             'message' => new external_value(PARAM_TEXT, 'Messaggio di stato')
         ]);
     }
+
+    /**
+     * Salva gli argomenti nella tabella mdl_local_configuratore_argomenti.
+     */
+    public static function save_argomenti($data) {
+        global $DB;
+
+        error_log("🚀 DEBUG save_argomenti - Metodo chiamato con data: " . json_encode($data));
+
+        $params = self::validate_parameters(
+            self::save_argomenti_parameters(),
+            array('data' => $data)  // ← Wrappa $data in un array
+        );
+
+        error_log("🔍 DEBUG save_argomenti - Parametri validati: " . json_encode($params));
+
+        self::validate_context(context_system::instance());
+        require_capability('local/configuratore:manage', context_system::instance());
+
+        // Estrai i dati dalla struttura wrappata
+        $chatbotid = $params['data']['chatbotid'];
+        $argomenti = $params['data']['argomenti'];
+
+        error_log("DEBUG save_argomenti - chatbotid: " . $chatbotid);
+        error_log("DEBUG save_argomenti - argomenti ricevuti: " . json_encode($argomenti));
+        // Recupera gli ID esistenti
+        $existing_ids = $DB->get_fieldset_select(
+            'local_configuratore_argomenti',
+            'id',
+            'chatbotid = ?',
+            [$chatbotid]
+        );
+        error_log("DEBUG save_argomenti - existing_ids: " . json_encode($existing_ids));
+
+        $new_ids = [];
+        foreach ($argomenti as $argomento) {
+            // Se è un nuovo argomento (isNew = true) oppure se l'ID è vuoto, inserisci
+            if (!empty($argomento['isNew']) || empty($argomento['id'])) {
+                error_log("DEBUG save_argomenti - Nuovo argomento: " . json_encode($argomento));
+                // Replica la stessa logica della creazione corso
+                $new_argomento = (object)[
+                    'chatbotid' => $chatbotid,
+                    'titolo' => $argomento['titolo'],
+                    'giorno' => 0, // per ora non usiamo giorno
+                    'timecreated' => time(),
+                ];
+                $new_id = $DB->insert_record('local_configuratore_argomenti', $new_argomento);
+                $new_ids[] = $new_id;
+                error_log("DEBUG save_argomenti - Nuovo ID creato: " . $new_id);
+            } else {
+                error_log("DEBUG save_argomenti - Aggiorna argomento esistente: " . json_encode($argomento));
+                // Aggiorna argomento esistente
+                $update_argomento = (object)[
+                    'id' => $argomento['id'],
+                    'titolo' => $argomento['titolo'],
+                    'timemodified' => time(),
+                ];
+                $DB->update_record('local_configuratore_argomenti', $update_argomento);
+                $new_ids[] = $argomento['id'];
+            }
+        }
+
+        // Rimuovi gli argomenti eliminati
+        $ids_to_delete = array_diff($existing_ids, $new_ids);
+        error_log("DEBUG save_argomenti - IDs da eliminare: " . json_encode($ids_to_delete));
+        foreach ($ids_to_delete as $id) {
+            $DB->delete_records('local_configuratore_argomenti', ['id' => $id]);
+            error_log("DEBUG save_argomenti - ID eliminato: " . $id);
+        }
+
+        return ['success' => true];
+    }
+
+    public static function save_argomenti_parameters() {
+        return new external_function_parameters(
+            array(
+                'data' => new external_single_structure(
+                    array(
+                        'chatbotid' => new external_value(PARAM_INT, 'ID del chatbot'),
+                        'argomenti' => new external_multiple_structure(
+                            new external_single_structure(
+                                array(
+                                    'id' => new external_value(PARAM_INT, 'ID dell\'argomento', VALUE_OPTIONAL),
+                                    'titolo' => new external_value(PARAM_TEXT, 'Titolo dell\'argomento'),
+                                    'isNew' => new external_value(PARAM_BOOL, 'Flag nuovo argomento', VALUE_DEFAULT, false)
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    public static function save_argomenti_returns() {
+        return new external_single_structure([
+            'success' => new external_value(PARAM_BOOL, 'Successo dell\'operazione')
+        ]);
+    }
 }
