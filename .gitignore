@@ -1,0 +1,100 @@
+# =====================================
+# FILE SENSIBILI - NON COMMITTARE MAI
+# =====================================
+
+# Credenziali Google Cloud
+service-account-key.json
+*service-account*.json
+firebase_key.json
+chiave_dialogflow.json
+text-to-speech.json
+
+# Variabili d'ambiente
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# =====================================
+# BUILD E ASSETS COMPILATI
+# =====================================
+
+# Build del configuratore React
+assets/
+dist/
+build/
+*.js.map
+
+
+# =====================================
+# LOG E DEBUG
+# =====================================
+
+# File di log
+*.log
+debug.log
+error.log
+app.log
+request_log.json
+estrazione_tipologia_request_log.json
+
+# =====================================
+# DIPENDENZE E CACHE
+# =====================================
+
+# Node modules (se presenti)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Composer (PHP)
+vendor/
+
+# =====================================
+# IDE E EDITOR
+# =====================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PhpStorm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# =====================================
+# SISTEMI OPERATIVI
+# =====================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Desktop.ini
+$RECYCLE.BIN/
+
+# =====================================
+# BACKUP E TEMPORANEI
+# =====================================
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp

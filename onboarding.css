@@ -1,0 +1,450 @@
+/* Nasconde i titoli predefiniti di Moodle */
+#region-main h1:first-of-type,
+.page-header-headings h1:not(.main-header) {
+    display: none !important;
+}
+
+/* CSS per rimuovere tutti i bordi e ombre (eccetto le nostre card) */
+*:not(.configuration-card):not(.configuration-course-name):not(.config-delete-btn):not(.configuration-actions),
+*:not(.configuration-card):not(.configuration-course-name):not(.config-delete-btn):not(.configuration-actions)::before,
+*:not(.configuration-card):not(.configuration-course-name):not(.config-delete-btn):not(.configuration-actions)::after {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Rimuove lo spazio bianco sopra il contenuto */
+#page,
+#page-wrapper,
+#page-content,
+#region-main,
+.region-main {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Riduce padding del body se necessario */
+body {
+    padding-top: 0 !important;
+}
+
+/* Container principale dell'onboarding */
+.onboarding-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 1rem 2rem;
+    margin-top: -2rem;
+}
+
+/* Titolo principale */
+.onboarding-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #21225f;
+    margin-bottom: 1rem;
+}
+
+/* Sottotitolo */
+.onboarding-subtitle {
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin-bottom: 3rem;
+    max-width: 600px;
+}
+
+
+
+.onboarding-button-container {
+    width: 100%;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Pulsante principale */
+.onboarding-button {
+    background: linear-gradient(to right, rgba(252, 208, 99, 0.67) 0%, #fcd063 100%);
+    width: 240px;
+    height: 55px;
+    border: none;
+    border-radius: 25px;
+    border-width: 1px;
+    border-color: rgba(29, 33, 37, 0.08);
+    font-size: 16px;
+    color: #646359;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0px 0px 16.299999237060547px 7px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    /* Punto di origine per lo scale */
+}
+
+/* Gradiente animato per l'hover */
+.onboarding-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #EEF8FF, #F9F3FD, #FEF0EE, #FFE89C);
+    background-size: 400% 400%;
+    border-radius: 25px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: gradientShift 1.8s ease-in-out infinite;
+}
+
+.onboarding-button:hover::before {
+    opacity: 1;
+}
+
+.onboarding-button:hover {
+    transform: scale(1.05);
+}
+
+/* Assicura che il testo rimanga sopra il gradiente */
+.onboarding-button span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Assicura che l'immagine della freccia rimanga sopra il gradiente */
+.onboarding-button img {
+    position: relative;
+    z-index: 1;
+}
+
+/* Animazione del gradiente */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    25% {
+        background-position: 100% 50%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    75% {
+        background-position: 0% 100%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Icona */
+.onboarding-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    color: #fcc63d;
+}
+
+/* Div di test */
+.divp {
+    background-color: red;
+    width: 100%;
+    height: 200px;
+    margin-top: 0;
+}
+
+
+
+
+
+
+
+
+.hero-text {
+    text-align: center;
+    color: #495057;
+    max-width: 60ch;
+    font-size: 30px;
+}
+
+.hero-text p {
+    margin: 0.2em 0;
+    line-height: 0.8;
+}
+
+.hero-text p:has(.highlight-yellow),
+.hero-text p:has(.highlight-blue) {
+    margin-bottom: 1.4em;
+    /* più spazio sotto se contiene highlight */
+}
+
+.hero-text .highlight-yellow {
+    color: #fcd063;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.hero-text .highlight-blue {
+    color: #6982ab;
+    font-weight: 600;
+    font-size: 40px;
+}
+
+/* Sezione configurazioni */
+.configurations-section {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 4rem;
+    padding: 0 2rem;
+}
+
+.configurations-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #21225f;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.configurations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.configuration-card {
+    border-radius: 30px;
+    padding: 2rem;
+    height: 220px;
+    position: relative;
+    transition: all 0.4s ease;
+    border: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #e2e8f0;
+    background:
+        /* Cerchi grandi che si intersecano - pattern denso e visibile */
+        radial-gradient(circle at -10% -10%, rgba(151, 151, 151, 0.15) 90px, transparent 95px),
+        radial-gradient(circle at 20% -5%, rgba(151, 151, 151, 0.12) 80px, transparent 85px),
+        radial-gradient(circle at 50% -10%, rgba(151, 151, 151, 0.18) 100px, transparent 105px),
+        radial-gradient(circle at 80% -5%, rgba(151, 151, 151, 0.14) 85px, transparent 90px),
+        radial-gradient(circle at 110% -10%, rgba(151, 151, 151, 0.16) 95px, transparent 100px),
+
+        radial-gradient(circle at -5% 20%, rgba(151, 151, 151, 0.13) 85px, transparent 90px),
+        radial-gradient(circle at 25% 25%, rgba(151, 151, 151, 0.17) 95px, transparent 100px),
+        radial-gradient(circle at 50% 20%, rgba(151, 151, 151, 0.11) 75px, transparent 80px),
+        radial-gradient(circle at 75% 25%, rgba(151, 151, 151, 0.15) 90px, transparent 95px),
+        radial-gradient(circle at 105% 20%, rgba(151, 151, 151, 0.13) 85px, transparent 90px),
+
+        radial-gradient(circle at -10% 50%, rgba(151, 151, 151, 0.16) 95px, transparent 100px),
+        radial-gradient(circle at 20% 50%, rgba(151, 151, 151, 0.12) 80px, transparent 85px),
+        radial-gradient(circle at 50% 50%, rgba(151, 151, 151, 0.19) 105px, transparent 110px),
+        radial-gradient(circle at 80% 50%, rgba(151, 151, 151, 0.14) 85px, transparent 90px),
+        radial-gradient(circle at 110% 50%, rgba(151, 151, 151, 0.17) 95px, transparent 100px),
+
+        radial-gradient(circle at -5% 80%, rgba(151, 151, 151, 0.15) 90px, transparent 95px),
+        radial-gradient(circle at 25% 75%, rgba(151, 151, 151, 0.13) 85px, transparent 90px),
+        radial-gradient(circle at 50% 80%, rgba(151, 151, 151, 0.11) 75px, transparent 80px),
+        radial-gradient(circle at 75% 75%, rgba(151, 151, 151, 0.18) 100px, transparent 105px),
+        radial-gradient(circle at 105% 80%, rgba(151, 151, 151, 0.15) 90px, transparent 95px),
+
+        radial-gradient(circle at -10% 110%, rgba(151, 151, 151, 0.14) 85px, transparent 90px),
+        radial-gradient(circle at 20% 105%, rgba(151, 151, 151, 0.17) 95px, transparent 100px),
+        radial-gradient(circle at 50% 110%, rgba(151, 151, 151, 0.15) 90px, transparent 95px),
+        radial-gradient(circle at 80% 105%, rgba(151, 151, 151, 0.12) 80px, transparent 85px),
+        radial-gradient(circle at 110% 110%, rgba(151, 151, 151, 0.16) 95px, transparent 100px),
+
+        /* Linee orizzontali sottili */
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 29px,
+            rgba(151, 151, 151, 0.05) 30px,
+            rgba(151, 151, 151, 0.05) 31px),
+        /* Bolle di luce */
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        /* Sfondo base */
+        linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+}
+
+.configuration-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+    z-index: 1;
+    transition: all 0.4s ease;
+}
+
+/* Azzurro pastello */
+.configuration-card:nth-child(6n+1)::before {
+    background: linear-gradient(135deg, rgba(232, 242, 255, 0.8) 0%, rgba(240, 248, 255, 0.6) 100%);
+}
+
+/* Rosa pastello */
+.configuration-card:nth-child(6n+2)::before {
+    background: linear-gradient(135deg, rgba(255, 240, 248, 0.8) 0%, rgba(254, 247, 255, 0.6) 100%);
+}
+
+/* Verde pastello */
+.configuration-card:nth-child(6n+3)::before {
+    background: linear-gradient(135deg, rgba(240, 255, 240, 0.8) 0%, rgba(240, 253, 244, 0.6) 100%);
+}
+
+/* Giallo pastello */
+.configuration-card:nth-child(6n+4)::before {
+    background: linear-gradient(135deg, rgba(255, 253, 240, 0.8) 0%, rgba(254, 252, 232, 0.6) 100%);
+}
+
+/* Viola pastello */
+.configuration-card:nth-child(6n+5)::before {
+    background: linear-gradient(135deg, rgba(248, 240, 255, 0.8) 0%, rgba(250, 245, 255, 0.6) 100%);
+}
+
+/* Pesca pastello */
+.configuration-card:nth-child(6n+6)::before {
+    background: linear-gradient(135deg, rgba(255, 245, 240, 0.8) 0%, rgba(254, 245, 240, 0.6) 100%);
+}
+
+.configuration-card:hover {
+    transform: scale(1.05);
+}
+
+.configuration-card:hover::before {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.configuration-course-name {
+    background: rgba(255, 255, 255, 0.95);
+    color: #4a5568;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    padding: 16px 24px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15) !important;
+    z-index: 2;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.configuration-date {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    color: #9ca3af;
+    font-size: 0.7rem;
+    font-weight: 400;
+    margin: 0;
+    opacity: 0;
+    z-index: 3;
+    padding: 3px 8px;
+    border-radius: 6px;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
+}
+
+.configuration-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(100%);
+    transition: all 0.4s ease;
+    border-radius: 0 0 30px 30px;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.configuration-card:hover .configuration-actions {
+    transform: translateY(0);
+}
+
+.configuration-card:hover .configuration-date {
+    opacity: 0.6;
+}
+
+.config-view-text {
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 600;
+    margin: 0;
+}
+
+.config-delete-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: scale(0.8);
+    backdrop-filter: blur(10px);
+    z-index: 3;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.config-delete-btn img {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.configuration-card:hover .config-delete-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.config-delete-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(229, 62, 62, 0.3) !important;
+}
+
+.config-delete-btn:hover img {
+    opacity: 1;
+}
+
+.config-edit-btn,
+.config-view-btn,
+.config-view-icon {
+    display: none;
+}
