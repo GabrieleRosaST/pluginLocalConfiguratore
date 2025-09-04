@@ -124,6 +124,16 @@ $functions = [
         'ajax'         => true,
     ],
 
+    'local_configuratore_get_chatbot_argomenti' => [
+        'classname'    => 'local_configuratore_external',
+        'methodname'   => 'get_chatbot_argomenti',
+        'classpath'    => 'local/configuratore/externallib.php',
+        'description'  => 'Recupera gli argomenti di un chatbot per modalità edit',
+        'type'         => 'read',
+        'capabilities' => 'local/configuratore:manage',
+        'ajax'         => true,
+    ],
+
 ];
 
 $services = [
@@ -139,6 +149,7 @@ $services = [
             'local_configuratore_get_pending_files',
             'local_configuratore_update_file_status',
             'local_configuratore_get_service_token',
+            'local_configuratore_get_chatbot_argomenti',
             'core_course_create_courses',
         ],
         'restrictedusers' => 0, // Permette a qualsiasi utente con capability di usarlo.

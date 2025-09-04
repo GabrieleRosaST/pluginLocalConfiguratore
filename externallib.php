@@ -1037,4 +1037,98 @@ class local_configuratore_external extends external_api {
             'message' => new external_value(PARAM_TEXT, 'Messaggio di stato'),
         ]);
     }
+
+    /**
+     * Recupera gli argomenti associati a un chatbot specifico per modalità edit
+     */
+    public static function get_chatbot_argomenti($chatbotid) {
+        global $DB;
+        
+        $params = self::validate_parameters(
+            self::get_chatbot_argomenti_parameters(), 
+            array('chatbotid' => $chatbotid)
+        );
+        
+        self::validate_context(context_system::instance());
+        require_capability('local/configuratore:manage', context_system::instance());
+        
+        try {
+            // Debug log
+            error_log("🔍 DEBUG get_chatbot_argomenti - Ricerca argomenti per chatbotid: " . $params['chatbotid']);
+            
+            // Verifica che il chatbot esista
+            $chatbot = $DB->get_record('local_configuratore_chatbot', ['id' => $params['chatbotid']]);
+            if (!$chatbot) {
+                error_log("❌ ERROR get_chatbot_argomenti - Chatbot non trovato con ID: " . $params['chatbotid']);
+                return [
+                    'success' => false,
+                    'message' => 'Chatbot non trovato con ID: ' . $params['chatbotid'],
+                    'argomenti' => [],
+                    'count' => 0
+                ];
+            }
+            
+            error_log("✅ DEBUG get_chatbot_argomenti - Chatbot trovato: " . $chatbot->nomebot);
+            
+            // Recupera tutti gli argomenti per questo chatbot ordinati per giorno
+            $argomenti = $DB->get_records('local_configuratore_argomenti', 
+                ['chatbotid' => $params['chatbotid']], 
+                'giorno ASC, id ASC'
+            );
+            
+            error_log("📊 DEBUG get_chatbot_argomenti - Trovati " . count($argomenti) . " argomenti");
+            
+            $result = [];
+            foreach ($argomenti as $argomento) {
+                $result[] = [
+                    'id' => (int) $argomento->id,
+                    'chatbotid' => (int) $argomento->chatbotid,
+                    'titolo' => $argomento->titolo ?? '',
+                    'giorno' => $argomento->giorno ? (int) $argomento->giorno : null
+                ];
+                
+                error_log("📝 DEBUG - Argomento: ID=" . $argomento->id . ", Titolo='" . $argomento->titolo . "', Giorno=" . $argomento->giorno);
+            }
+            
+            error_log("🎯 DEBUG get_chatbot_argomenti - Risultato finale: " . json_encode($result));
+            
+            return [
+                'success' => true,
+                'argomenti' => $result,
+                'count' => count($result),
+                'message' => 'Argomenti recuperati con successo'
+            ];
+            
+        } catch (Exception $e) {
+            error_log("💥 ERROR get_chatbot_argomenti - " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Errore nel recupero argomenti: ' . $e->getMessage(),
+                'argomenti' => [],
+                'count' => 0
+            ];
+        }
+    }
+
+    public static function get_chatbot_argomenti_parameters() {
+        return new external_function_parameters([
+            'chatbotid' => new external_value(PARAM_INT, 'ID del chatbot di cui recuperare gli argomenti')
+        ]);
+    }
+
+    public static function get_chatbot_argomenti_returns() {
+        return new external_single_structure([
+            'success' => new external_value(PARAM_BOOL, 'Successo operazione'),
+            'argomenti' => new external_multiple_structure(
+                new external_single_structure([
+                    'id' => new external_value(PARAM_INT, 'ID argomento'),
+                    'chatbotid' => new external_value(PARAM_INT, 'ID chatbot'),
+                    'titolo' => new external_value(PARAM_TEXT, 'Titolo argomento'),
+                    'giorno' => new external_value(PARAM_INT, 'Giorno argomento', VALUE_OPTIONAL)
+                ])
+            ),
+            'count' => new external_value(PARAM_INT, 'Numero argomenti trovati'),
+            'message' => new external_value(PARAM_TEXT, 'Messaggio di stato')
+        ]);
+    }
 }
