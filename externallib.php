@@ -1230,4 +1230,57 @@ class local_configuratore_external extends external_api {
             'success' => new external_value(PARAM_BOOL, 'Successo dell\'operazione')
         ]);
     }
+
+    /**
+     * Recupera i file associati a un argomento specifico.
+     *
+     * @param int $argomentoid L'ID dell'argomento.
+     * @return array Un array di file associati all'argomento.
+     * @throws moodle_exception Se l'argomento non esiste o non ci sono file associati.
+     */
+    public static function get_files_by_argomento($argomentoid) {
+        global $DB;
+
+        self::validate_parameters(
+            self::get_files_by_argomento_parameters(),
+            ['argomentoid' => $argomentoid]
+        );
+
+        self::validate_context(context_system::instance());
+        require_capability('local/configuratore:manage', context_system::instance());
+
+        // Recupera i file dalla tabella mdl_local_configuratore_files
+        $files = $DB->get_records('local_configuratore_files', ['argomentoid' => $argomentoid], '', 'id, filename');
+
+        if (!$files) {
+            throw new moodle_exception('nofilesfound', 'local_configuratore', '', $argomentoid);
+        }
+
+        return array_values($files);
+    }
+
+    /**
+     * Parametri per get_files_by_argomento.
+     *
+     * @return external_function_parameters
+     */
+    public static function get_files_by_argomento_parameters() {
+        return new external_function_parameters([
+            'argomentoid' => new external_value(PARAM_INT, 'L\'ID dell\'argomento')
+        ]);
+    }
+
+    /**
+     * Struttura di ritorno per get_files_by_argomento.
+     *
+     * @return external_multiple_structure
+     */
+    public static function get_files_by_argomento_returns() {
+        return new external_multiple_structure(
+            new external_single_structure([
+                'id' => new external_value(PARAM_INT, 'ID del file'),
+                'filename' => new external_value(PARAM_TEXT, 'Nome del file')
+            ])
+        );
+    }
 }

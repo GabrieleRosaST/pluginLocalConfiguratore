@@ -143,6 +143,16 @@ $functions = [
         'capabilities'=> 'local/configuratore:manage',
         'ajax'        => true,
     ],
+
+    'local_configuratore_get_files_by_argomento' => [
+        'classname'   => 'local_configuratore_external',
+        'methodname'  => 'get_files_by_argomento',
+        'classpath'   => 'local/configuratore/externallib.php',
+        'description' => 'Recupera i file associati a uno specifico argomento.',
+        'type'        => 'read',
+        'capabilities' => 'local/configuratore:manage',
+        'ajax'        => true,
+    ],
 ];
 
 $services = [

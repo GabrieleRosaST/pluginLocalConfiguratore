@@ -41,6 +41,21 @@ if (isset($_GET['delete']) && confirm_sesskey()) {
 }
 
 /**
+ * Aggiorna il timestamp quando una configurazione viene modificata
+ */
+if (isset($_GET['edit']) && confirm_sesskey()) {
+    global $DB, $USER;
+    $config_id = (int)$_GET['edit']; // Cast a intero per sicurezza
+
+    // Verifica che la configurazione appartenga all'utente corrente
+    $config = $DB->get_record('local_configuratore_chatbot', array('id' => $config_id, 'userid' => $USER->id));
+    if ($config) {
+        // Aggiorna il timestamp della configurazione
+        $DB->update_record('local_configuratore_chatbot', array('id' => $config_id, 'timemodified' => time()));
+    }
+}
+
+/**
  * FUNZIONE UTILITY: Calcolo del tempo relativo
  * 
  * Converte un timestamp Unix in una rappresentazione user-friendly del tempo trascorso.
@@ -158,8 +173,8 @@ echo $OUTPUT->header();
     // Accesso alle variabili globali di Moodle
     global $DB, $USER;
     
-    // QUERY DATABASE: Recupera configurazioni dell'utente corrente ordinate per data creazione
-    $sql = "SELECT * FROM {local_configuratore_chatbot} WHERE userid = :userid ORDER BY id DESC";
+    // QUERY DATABASE: Recupera configurazioni dell'utente corrente ordinate per data modifica
+    $sql = "SELECT * FROM {local_configuratore_chatbot} WHERE userid = :userid ORDER BY timemodified DESC";
     $params = array('userid' => $USER->id);
     $configurations = $DB->get_records_sql($sql, $params);
     
@@ -181,7 +196,7 @@ echo $OUTPUT->header();
          */
         foreach ($configurations as $config) {
             // Calcola e formatta il tempo trascorso dalla creazione
-            $timeAgoText = timeAgo($config->timecreated);
+            $timeAgoText = timeAgo($config->timemodified);
             
             // GENERAZIONE HTML DELLA CARD
             // onclick principale: visualizza la configurazione
